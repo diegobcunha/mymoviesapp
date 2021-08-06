@@ -1,14 +1,11 @@
 package com.br.diegocunha.mymovies.ui.main
 
-import android.util.Log
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import com.br.diegocunha.mymovies.datasource.model.UpcomingMoviesResponse
 import com.br.diegocunha.mymovies.extensions.navigateWithSharedAxisX
 import com.br.diegocunha.mymovies.ui.compose.theme.components.SubtitleColumn
-import com.br.diegocunha.mymovies.ui.compose.theme.components.TitleColumn
 import com.br.diegocunha.mymovies.ui.templates.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

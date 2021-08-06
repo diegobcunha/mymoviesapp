@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import com.br.diegocunha.mymovies.datasource.resource.LoadingType
 import com.br.diegocunha.mymovies.datasource.resource.Resource
 import com.br.diegocunha.mymovies.ui.compose.theme.TmdbTheme
+import com.br.diegocunha.mymovies.ui.compose.theme.components.HelperComponent
 import com.br.diegocunha.mymovies.ui.templates.viewmodel.ResourceViewModel
 
 abstract class BaseFragment<T> : Fragment() {
@@ -53,6 +56,7 @@ abstract class BaseFragment<T> : Fragment() {
 
     @Composable
     protected fun ErrorState(throwable: Throwable?) {
-        Log.e("Error",null, throwable)
+        Log.e("Error", null, throwable)
+        HelperComponent(isLoading = false, onRetryClick = { viewModel.forceLoad() })
     }
 }
