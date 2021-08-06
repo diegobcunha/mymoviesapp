@@ -17,8 +17,8 @@ class TmdbExecutor(private val api: TmdbApi) {
             .map {
                 val original = it?.results
                 val copyResults = original.orEmpty().toMutableList()
-                copyResults.forEach {
-                    it.posterPath = "https://image.tmdb.org/t/p/w500" + it.posterPath
+                copyResults.forEach { movie ->
+                    movie.posterPath = POSTER_URL + movie.posterPath
                 }
 
                 it?.copy(results = copyResults)
@@ -27,5 +27,10 @@ class TmdbExecutor(private val api: TmdbApi) {
 
     suspend fun movieDetail(id: Long): Resource<Movie> {
         return api.movie(id, BuildConfig.API_KEY, BuildConfig.DEFAULT_LANGUAGE)
+            .map { it?.copy(posterPath = POSTER_URL + it.posterPath ) }
+    }
+
+    companion object {
+        private const val POSTER_URL = "https://image.tmdb.org/t/p/w500"
     }
 }

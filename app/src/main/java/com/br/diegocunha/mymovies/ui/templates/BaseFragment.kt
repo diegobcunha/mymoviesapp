@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.br.diegocunha.mymovies.datasource.resource.LoadingType
 import com.br.diegocunha.mymovies.datasource.resource.Resource
 import com.br.diegocunha.mymovies.ui.compose.theme.TmdbTheme
+import com.br.diegocunha.mymovies.ui.compose.theme.components.BasicLoader
 import com.br.diegocunha.mymovies.ui.compose.theme.components.HelperComponent
 import com.br.diegocunha.mymovies.ui.templates.viewmodel.ResourceViewModel
 
@@ -51,7 +52,10 @@ abstract class BaseFragment<T> : Fragment() {
 
     @Composable
     protected fun LoadingState(state: LoadingType? = LoadingType.REPLACE) {
-        Log.i("State", state?.name.orEmpty())
+        when(state) {
+            LoadingType.REPLACE -> BasicLoader()
+            else -> Unit
+        }
     }
 
     @Composable

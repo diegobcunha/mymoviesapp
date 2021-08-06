@@ -56,17 +56,17 @@ dependencies {
 
     implementation("androidx.core:core-ktx:1.6.0")
     implementation("androidx.appcompat:appcompat:1.3.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.0")
     implementation("com.google.android.material:material:1.4.0")
 
 
     //Compose
     implementation("androidx.compose.ui:ui:1.0.1")
-    implementation("androidx.compose.ui:ui-tooling:1.0.0") 
-    implementation("androidx.compose.foundation:foundation:1.0.0")
-    implementation("androidx.compose.material:material:1.0.0")
-    implementation("androidx.compose.runtime:runtime-livedata:1.0.0")
-    implementation("androidx.activity:activity-compose:1.3.0")
+    implementation("androidx.compose.ui:ui-tooling:1.0.1")
+    implementation("androidx.compose.foundation:foundation:1.0.1")
+    implementation("androidx.compose.material:material:1.0.1")
+    implementation("androidx.compose.runtime:runtime-livedata:1.0.1")
+    implementation("androidx.activity:activity-compose:1.3.1")
     implementation("io.coil-kt:coil-compose:1.3.2")
 
     //Koin
@@ -82,7 +82,7 @@ dependencies {
     // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
-    implementation("androidx.navigation:navigation-compose:2.4.0-alpha05")
+    implementation("androidx.navigation:navigation-compose:2.4.0-alpha06")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -61,14 +60,12 @@ fun HelperComponent(onRetryClick: (() -> Unit)? = null, isLoading: Boolean) {
             maxLines = 5
         )
 
-
-
         Button(onClick = {
             onRetryClick?.let {
                 loadingState = true
                 it.invoke()
             }
-        }) {
+        },) {
             if (loadingState) {
                 CircularProgressIndicator(
                     color = MaterialTheme.colors.error
