@@ -5,15 +5,15 @@ import com.br.diegocunha.mymovies.coroutines.DispatchersProvider
 import com.br.diegocunha.mymovies.datasource.resource.LoadingType
 import com.br.diegocunha.mymovies.datasource.resource.Resource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.launch
 
 abstract class ResourceViewModel<T>(dispatchersProvider: DispatchersProvider) :
     CoroutineViewModel(dispatchersProvider), ResourceFetcher<T> {
 
-    val resourceLiveData: MutableSharedFlow<Resource<T>> by lazy {
-        MutableSharedFlow<Resource<T>>().apply {
+    val resourceLiveData: MutableStateFlow<Resource<T>> by lazy {
+        MutableStateFlow<Resource<T>>(Resource.loading(LoadingType.REPLACE)).apply {
             viewModelScope.launch(dispatchersProvider.io) {
                 emitAll(loadContent(LoadingType.REPLACE))
             }

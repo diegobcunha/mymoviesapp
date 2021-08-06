@@ -35,7 +35,7 @@ abstract class BaseFragment<T> : Fragment() {
     @Composable
     private fun ResourceState() {
         val viewState =
-            viewModel.resourceLiveData.collectAsState(initial = Resource.Loading(LoadingType.REPLACE))
+            viewModel.resourceLiveData.collectAsState()
 
         when (viewState.value) {
             is Resource.Loading -> LoadingState()
@@ -48,7 +48,7 @@ abstract class BaseFragment<T> : Fragment() {
 
     @Composable
     protected fun LoadingState(state: LoadingType? = LoadingType.REPLACE) {
-
+        Log.i("State", state?.name.orEmpty())
     }
 
     @Composable

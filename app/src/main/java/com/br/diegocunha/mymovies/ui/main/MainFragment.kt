@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import com.br.diegocunha.mymovies.datasource.model.UpcomingMoviesResponse
+import com.br.diegocunha.mymovies.extensions.navigateWithSharedAxisX
 import com.br.diegocunha.mymovies.ui.compose.theme.components.SubtitleColumn
 import com.br.diegocunha.mymovies.ui.compose.theme.components.TitleColumn
 import com.br.diegocunha.mymovies.ui.templates.BaseFragment
@@ -34,7 +35,8 @@ class MainFragment : BaseFragment<UpcomingMoviesResponse>() {
     }
 
     private fun navigateToGenreMovies(id: Long) {
-        Log.i("MovieId", id.toString())
+        val directions = MainFragmentDirections.actionMainFragmentToMovieDetailFragment(id)
+        navigateWithSharedAxisX(directions)
     }
 }
 

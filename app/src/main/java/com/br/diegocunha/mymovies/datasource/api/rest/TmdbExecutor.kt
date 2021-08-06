@@ -2,6 +2,7 @@ package com.br.diegocunha.mymovies.datasource.api.rest
 
 import com.br.diegocunha.mymovies.BuildConfig
 import com.br.diegocunha.mymovies.datasource.model.GenreResponse
+import com.br.diegocunha.mymovies.datasource.model.Movie
 import com.br.diegocunha.mymovies.datasource.model.UpcomingMoviesResponse
 import com.br.diegocunha.mymovies.datasource.resource.Resource
 
@@ -22,5 +23,9 @@ class TmdbExecutor(private val api: TmdbApi) {
 
                 it?.copy(results = copyResults)
             }
+    }
+
+    suspend fun movieDetail(id: Long): Resource<Movie> {
+        return api.movie(id, BuildConfig.API_KEY, BuildConfig.DEFAULT_LANGUAGE)
     }
 }

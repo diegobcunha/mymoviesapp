@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -50,12 +51,12 @@ fun SubtitleColumn(
 
     Row(
         modifier
-            .fillMaxHeight()
-            .padding(8.dp)
-            .clip(RoundedCornerShape(4.dp))
-            .background(MaterialTheme.colors.surface)
+            .fillMaxWidth()
             .clickable(onClick = { onClick.invoke() })
             .padding(16.dp)
+            .clip(RoundedCornerShape(4.dp))
+            .background(MaterialTheme.colors.surface)
+
     ) {
         Surface(
             modifier = Modifier.size(50.dp),
@@ -72,10 +73,7 @@ fun SubtitleColumn(
             )
         }
 
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-        ) {
+        Column {
             Text(title, fontWeight = FontWeight.Bold)
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 Text(subtitle, style = MaterialTheme.typography.body2)
