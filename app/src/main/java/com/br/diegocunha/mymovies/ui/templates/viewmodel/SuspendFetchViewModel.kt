@@ -35,7 +35,7 @@ abstract class SuspendFetchViewModel<I>(dispatchersProvider: DispatchersProvider
                 }
             }
         } catch (e: Exception) {
-            emit(Resource.error(e))
+            emit(error(e))
         }
     }
 

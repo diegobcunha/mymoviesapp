@@ -1,19 +1,24 @@
 package com.br.diegocunha.mymovies.ui.templates
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import com.br.diegocunha.mymovies.datasource.resource.LoadingType
+import com.br.diegocunha.mymovies.datasource.resource.Resource
 import com.br.diegocunha.mymovies.ui.compose.theme.TmdbTheme
 import com.br.diegocunha.mymovies.ui.templates.viewmodel.ResourceViewModel
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment<T> : Fragment() {
 
-    abstract val viewModel: ResourceViewModel<*>
+    abstract val viewModel: ResourceViewModel<T>
 
-    @Composable abstract fun ApplyContent()
+    @Composable
+    abstract fun ApplyContent(viewState: T?)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,8 +27,32 @@ abstract class BaseFragment : Fragment() {
     ) = ComposeView(requireContext()).apply {
         setContent {
             TmdbTheme {
-                ApplyContent()
+                ResourceState()
             }
         }
+    }
+
+    @Composable
+    private fun ResourceState() {
+        val viewState =
+            viewModel.resourceLiveData.collectAsState(initial = Resource.Loading(LoadingType.REPLACE))
+
+        when (viewState.value) {
+            is Resource.Loading -> LoadingState()
+            is Resource.Error -> ErrorState(viewState.value.getThrowableOrNull())
+            is Resource.Success -> {
+                ApplyContent(viewState.value.data)
+            }
+        }
+    }
+
+    @Composable
+    protected fun LoadingState(state: LoadingType? = LoadingType.REPLACE) {
+
+    }
+
+    @Composable
+    protected fun ErrorState(throwable: Throwable?) {
+        Log.e("Error",null, throwable)
     }
 }

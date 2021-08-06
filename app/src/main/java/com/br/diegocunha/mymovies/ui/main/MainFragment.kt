@@ -1,45 +1,40 @@
 package com.br.diegocunha.mymovies.ui.main
 
+import android.util.Log
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
+import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import com.br.diegocunha.mymovies.datasource.resource.LoadingType
-import com.br.diegocunha.mymovies.datasource.resource.Resource
+import com.br.diegocunha.mymovies.datasource.model.UpcomingMoviesResponse
+import com.br.diegocunha.mymovies.ui.compose.theme.components.SubtitleColumn
+import com.br.diegocunha.mymovies.ui.compose.theme.components.TitleColumn
 import com.br.diegocunha.mymovies.ui.templates.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainFragment : BaseFragment() {
+class MainFragment : BaseFragment<UpcomingMoviesResponse>() {
 
     override val viewModel: MainViewModel by viewModel()
 
     @Composable
-    override fun ApplyContent() {
-        LoadMovieItems(viewModel = viewModel)
+    override fun ApplyContent(viewState: UpcomingMoviesResponse?) {
+        LoadMoviesGenre(viewState)
     }
-}
 
-@Composable
-fun LoadMovieItems(viewModel: MainViewModel) {
-    val viewState =
-        viewModel.resourceLiveData.collectAsState(initial = Resource.Loading(LoadingType.REPLACE))
-
-    when (viewState.value) {
-        is Resource.Loading -> CircularProgressIndicator()
-        is Resource.Error -> {
-            Button(onClick = { viewModel.refresh() }) {
-                Text("Tentar novamente")
-            }
-        }
-        is Resource.Success -> {
-            LazyColumn {
-                items(viewState.value.data?.genres.orEmpty()) { movie ->
-                    Text(text = movie.name)
-                }
+    @Composable
+    private fun LoadMoviesGenre(upComingMovie: UpcomingMoviesResponse?) {
+        LazyColumn {
+            items(upComingMovie?.results.orEmpty()) {
+                SubtitleColumn(
+                    title = it.title,
+                    subtitle = it.releaseDate,
+                    imageUrl = it.posterPath,
+                    onClick = { navigateToGenreMovies(it.id) })
             }
         }
     }
+
+    private fun navigateToGenreMovies(id: Long) {
+        Log.i("MovieId", id.toString())
+    }
 }
+

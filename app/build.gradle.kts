@@ -61,12 +61,13 @@ dependencies {
 
 
     //Compose
-    implementation("androidx.compose.ui:ui:1.0.0")
+    implementation("androidx.compose.ui:ui:1.0.1")
     implementation("androidx.compose.ui:ui-tooling:1.0.0") 
     implementation("androidx.compose.foundation:foundation:1.0.0")
     implementation("androidx.compose.material:material:1.0.0")
     implementation("androidx.compose.runtime:runtime-livedata:1.0.0")
     implementation("androidx.activity:activity-compose:1.3.0")
+    implementation("io.coil-kt:coil-compose:1.3.2")
 
     //Koin
     implementation("io.insert-koin:koin-android:3.1.2")
