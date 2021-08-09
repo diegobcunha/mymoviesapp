@@ -1,5 +1,6 @@
 package com.br.diegocunha.mymovies.ui.compose.theme.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,10 +14,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
@@ -27,8 +24,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HelperComponent(onRetryClick: (() -> Unit)? = null, isLoading: Boolean) {
-
-    var loadingState by remember { mutableStateOf(isLoading) }
 
     Column(
         Modifier
@@ -60,13 +55,15 @@ fun HelperComponent(onRetryClick: (() -> Unit)? = null, isLoading: Boolean) {
             maxLines = 5
         )
 
-        Button(onClick = {
-            onRetryClick?.let {
-                loadingState = true
-                it.invoke()
-            }
-        },) {
-            if (loadingState) {
+        Button(
+            modifier = Modifier
+                .clickable { !isLoading },
+            onClick = {
+                onRetryClick?.let {
+                    it.invoke()
+                }
+            }) {
+            if (isLoading) {
                 CircularProgressIndicator(
                     color = MaterialTheme.colors.error
                 )

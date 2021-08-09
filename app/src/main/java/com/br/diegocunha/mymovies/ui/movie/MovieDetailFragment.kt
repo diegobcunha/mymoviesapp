@@ -18,7 +18,6 @@ import org.koin.core.parameter.parametersOf
 
 class MovieDetailFragment : BaseFragment<Movie>() {
 
-
     override val viewModel: MovieDetailViewModel by viewModel() {
         parametersOf(args.movieId)
     }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.ComposeView
@@ -41,9 +42,12 @@ abstract class BaseFragment<T> : Fragment() {
         val viewState =
             viewModel.resourceLiveData.collectAsState()
 
+        val isLoading by remember { mutableStateOf(viewState.value.isLoading()) }
+        Log.i("LoadingState", isLoading.toString())
+
         when (viewState.value) {
             is Resource.Loading -> LoadingState()
-            is Resource.Error -> ErrorState(viewState.value.getThrowableOrNull())
+            is Resource.Error -> ErrorState(viewState.value.getThrowableOrNull(), isLoading)
             is Resource.Success -> {
                 ApplyContent(viewState.value.data)
             }
@@ -59,8 +63,7 @@ abstract class BaseFragment<T> : Fragment() {
     }
 
     @Composable
-    protected fun ErrorState(throwable: Throwable?) {
-        Log.e("Error", null, throwable)
-        HelperComponent(isLoading = false, onRetryClick = { viewModel.forceLoad() })
+    protected fun ErrorState(throwable: Throwable?, isLoading: Boolean) {
+        HelperComponent(isLoading = isLoading, onRetryClick = { viewModel.forceLoad() })
     }
 }
