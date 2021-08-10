@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment
 import com.br.diegocunha.mymovies.datasource.resource.LoadingType
 import com.br.diegocunha.mymovies.datasource.resource.Resource
 import com.br.diegocunha.mymovies.ui.compose.theme.TmdbTheme
-import com.br.diegocunha.mymovies.ui.compose.theme.components.BasicLoader
 import com.br.diegocunha.mymovies.ui.compose.theme.components.HelperComponent
+import com.br.diegocunha.mymovies.ui.compose.theme.components.ShimmerLoader
 import com.br.diegocunha.mymovies.ui.templates.viewmodel.ResourceViewModel
 
 abstract class BaseFragment<T> : Fragment() {
@@ -45,8 +45,6 @@ abstract class BaseFragment<T> : Fragment() {
         var isLoading by remember { mutableStateOf(viewState.value.isLoading()) }
         var lastState by remember { mutableStateOf(ScreenState.LOADING) }
 
-        // estado atual + lastState
-
         lastState = getScreenState(viewState.value, lastState)
 
         when (lastState) {
@@ -63,7 +61,7 @@ abstract class BaseFragment<T> : Fragment() {
     @Composable
     protected fun LoadingState(state: LoadingType? = LoadingType.REPLACE) {
         when (state) {
-            LoadingType.REPLACE -> BasicLoader()
+            LoadingType.REPLACE -> ShimmerLoader()
             else -> Unit
         }
     }
@@ -75,22 +73,13 @@ abstract class BaseFragment<T> : Fragment() {
 
     private fun getScreenState(apiState: Resource<T>, screenState: ScreenState): ScreenState {
         return when {
-            apiState.isLoading() && (screenState == ScreenState.ERROR_RETRY ||
-                    screenState == ScreenState.ERROR) -> ScreenState.ERROR_RETRY
+            apiState.isLoading() && screenState.isErrorState() -> ScreenState.ERROR_RETRY
             apiState.isSuccess() -> ScreenState.SUCCESS
             apiState.isError() -> ScreenState.ERROR
-            apiState.isLoading() && screenState == ScreenState.SUCCESS ||
-                    screenState == ScreenState.LOADING -> ScreenState.LOADING
+            apiState.isLoading() && screenState.isLoadingState() -> ScreenState.LOADING
             else -> {
                 throw Exception("Faltou algo: $apiState + $screenState")
             }
         }
     }
-}
-
-enum class ScreenState() {
-    LOADING,
-    SUCCESS,
-    ERROR,
-    ERROR_RETRY
 }

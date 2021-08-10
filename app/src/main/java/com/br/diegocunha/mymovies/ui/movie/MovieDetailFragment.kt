@@ -39,7 +39,7 @@ class MovieDetailFragment : BaseFragment<Movie>() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(400.dp),
-                contentScale = ContentScale.Fit
+                contentScale = ContentScale.FillBounds
             )
             Text(text = viewState?.title.orEmpty())
         }
