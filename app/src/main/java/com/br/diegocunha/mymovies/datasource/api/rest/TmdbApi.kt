@@ -21,7 +21,7 @@ interface TmdbApi {
     suspend fun upcomingMovies(
         @Query("api_key") apiKey: String,
         @Query("language") language: String,
-        @Query("page") page: Long,
+        @Query("page") page: Int,
         @Query("region") region: String
     ): Resource<UpcomingMoviesResponse>
 

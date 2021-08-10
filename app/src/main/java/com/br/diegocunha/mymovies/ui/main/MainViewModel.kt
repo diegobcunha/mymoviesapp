@@ -6,12 +6,13 @@ import com.br.diegocunha.mymovies.datasource.model.GenreResponse
 import com.br.diegocunha.mymovies.datasource.model.UpcomingMoviesResponse
 import com.br.diegocunha.mymovies.datasource.resource.LoadingType
 import com.br.diegocunha.mymovies.datasource.resource.Resource
+import com.br.diegocunha.mymovies.ui.templates.viewmodel.PaginableViewModel
 import com.br.diegocunha.mymovies.ui.templates.viewmodel.SuspendFetchViewModel
 
 class MainViewModel(dispatchersProvider: DispatchersProvider, private val executor: TmdbExecutor) :
-    SuspendFetchViewModel<UpcomingMoviesResponse>(dispatchersProvider) {
+    PaginableViewModel<UpcomingMoviesResponse>(dispatchersProvider) {
 
-    override suspend fun fetch(loadingType: LoadingType): Resource<UpcomingMoviesResponse> {
-        return executor.upComingMovies(1)
+    override suspend fun fetch(page: Int): Resource<UpcomingMoviesResponse> {
+        return executor.upComingMovies(page)
     }
 }

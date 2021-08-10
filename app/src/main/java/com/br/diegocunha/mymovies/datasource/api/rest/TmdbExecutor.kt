@@ -12,7 +12,7 @@ class TmdbExecutor(private val api: TmdbApi) {
         return api.genres(BuildConfig.API_KEY, BuildConfig.DEFAULT_LANGUAGE, page)
     }
 
-    suspend fun upComingMovies(page: Long): Resource<UpcomingMoviesResponse> {
+    suspend fun upComingMovies(page: Int): Resource<UpcomingMoviesResponse> {
         return api.upcomingMovies(BuildConfig.API_KEY, BuildConfig.DEFAULT_LANGUAGE, page, "BR")
             .map {
                 val original = it?.results

@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 abstract class ResourceViewModel<T>(dispatchersProvider: DispatchersProvider) :
     CoroutineViewModel(dispatchersProvider), ResourceFetcher<T> {
 
-    val resourceLiveData: MutableStateFlow<Resource<T>> by lazy {
+    val resourceStateFlow: MutableStateFlow<Resource<T>> by lazy {
         MutableStateFlow<Resource<T>>(Resource.loading(LoadingType.REPLACE)).apply {
             viewModelScope.launch(dispatchersProvider.io) {
                 emitAll(loadContent(LoadingType.REPLACE))
@@ -30,7 +30,7 @@ abstract class ResourceViewModel<T>(dispatchersProvider: DispatchersProvider) :
 
     open fun forceLoad(loadingType: LoadingType = LoadingType.REPLACE) {
         launchMain {
-            resourceLiveData.emitAll(loadContent(loadingType))
+            resourceStateFlow.emitAll(loadContent(loadingType))
         }
     }
 

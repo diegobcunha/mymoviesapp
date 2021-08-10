@@ -40,7 +40,7 @@ abstract class BaseFragment<T> : Fragment() {
     @Composable
     private fun ResourceState() {
         val viewState =
-            viewModel.resourceLiveData.collectAsState()
+            viewModel.resourceStateFlow.collectAsState()
 
         var isLoading by remember { mutableStateOf(viewState.value.isLoading()) }
         var lastState by remember { mutableStateOf(ScreenState.LOADING) }
@@ -48,7 +48,7 @@ abstract class BaseFragment<T> : Fragment() {
         lastState = getScreenState(viewState.value, lastState)
 
         when (lastState) {
-            ScreenState.LOADING -> LoadingState()
+            ScreenState.LOADING -> LoadingState((viewState.value as Resource.Loading).type)
             ScreenState.SUCCESS -> ApplyContent(viewState.value.data)
             ScreenState.ERROR,
             ScreenState.ERROR_RETRY -> {
@@ -59,7 +59,7 @@ abstract class BaseFragment<T> : Fragment() {
     }
 
     @Composable
-    protected fun LoadingState(state: LoadingType? = LoadingType.REPLACE) {
+    protected fun LoadingState(state: LoadingType?) {
         when (state) {
             LoadingType.REPLACE -> ShimmerLoader()
             else -> Unit
