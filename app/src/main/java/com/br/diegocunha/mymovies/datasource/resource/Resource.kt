@@ -31,6 +31,8 @@ sealed class Resource<T>(open val data: T?) {
 
     fun isNotNullSuccess() = this is Success && data != null
 
+    fun loadingType() = (this as? Loading)?.type
+
     inline fun onLoading(block: (LoadingType?) -> Unit): Resource<T> {
         if (this is Loading) {
             block(type)

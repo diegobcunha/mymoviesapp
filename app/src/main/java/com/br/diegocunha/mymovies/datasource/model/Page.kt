@@ -1,8 +1,11 @@
 package com.br.diegocunha.mymovies.datasource.model
 
-interface Page {
+import androidx.compose.runtime.MutableState
+
+interface Page<T> {
     var page: Int
     val totalPages: Int
+    val results: List<T>
 }
 
-fun Int.increment() = this + 1
+fun MutableState<Int>.increment() = this.value + 1

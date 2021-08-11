@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.fragment.navArgs
 import coil.compose.rememberImagePainter
 import com.br.diegocunha.mymovies.datasource.model.Movie
-import com.br.diegocunha.mymovies.ui.templates.BaseFragment
+import com.br.diegocunha.mymovies.ui.templates.fragment.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 

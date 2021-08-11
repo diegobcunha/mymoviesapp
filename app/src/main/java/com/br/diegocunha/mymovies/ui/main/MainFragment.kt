@@ -1,20 +1,26 @@
 package com.br.diegocunha.mymovies.ui.main
 
 import androidx.compose.runtime.Composable
+import com.br.diegocunha.mymovies.datasource.model.Movie
 import com.br.diegocunha.mymovies.datasource.model.UpcomingMoviesResponse
 import com.br.diegocunha.mymovies.extensions.navigateWithSharedAxisX
 import com.br.diegocunha.mymovies.ui.compose.theme.components.InfiniteLazyColumn
 import com.br.diegocunha.mymovies.ui.compose.theme.components.SubtitleColumn
-import com.br.diegocunha.mymovies.ui.templates.BaseFragment
+import com.br.diegocunha.mymovies.ui.templates.fragment.PaginableFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainFragment : BaseFragment<UpcomingMoviesResponse>() {
+class MainFragment : PaginableFragment<Movie, UpcomingMoviesResponse>() {
 
     override val viewModel: MainViewModel by viewModel()
 
+
     @Composable
-    override fun ApplyContent(viewState: UpcomingMoviesResponse?) {
-        LoadMoviesGenre(viewState)
+    override fun ApplyListContent(content: Movie) {
+        SubtitleColumn(
+            title = content.title,
+            subtitle = content.releaseDate,
+            imageUrl = content.posterPath,
+            onClick = { navigateToGenreMovies(content.id) })
     }
 
     @Composable

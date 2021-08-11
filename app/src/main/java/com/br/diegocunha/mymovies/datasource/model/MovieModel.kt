@@ -8,10 +8,10 @@ data class Genre(val id: Int, val name: String)
 
 data class UpcomingMoviesResponse(
     override var page: Int,
-    val results: List<Movie>,
+    override val results: List<Movie>,
     @Json(name = "total_pages") override val totalPages: Int,
     @Json(name = "total_results") val totalResults: Int
-): Page
+): Page<Movie>
 
 data class Movie(
     val id: Long,

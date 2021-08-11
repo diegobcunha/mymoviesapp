@@ -1,6 +1,7 @@
-package com.br.diegocunha.mymovies.ui.templates
+package com.br.diegocunha.mymovies.ui.templates.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.runtime.Composable
@@ -14,8 +15,12 @@ import androidx.fragment.app.Fragment
 import com.br.diegocunha.mymovies.datasource.resource.LoadingType
 import com.br.diegocunha.mymovies.datasource.resource.Resource
 import com.br.diegocunha.mymovies.ui.compose.theme.TmdbTheme
+import com.br.diegocunha.mymovies.ui.compose.theme.components.CircularIndeterminateProgressBar
 import com.br.diegocunha.mymovies.ui.compose.theme.components.HelperComponent
 import com.br.diegocunha.mymovies.ui.compose.theme.components.ShimmerLoader
+import com.br.diegocunha.mymovies.ui.templates.ScreenState
+import com.br.diegocunha.mymovies.ui.templates.isErrorState
+import com.br.diegocunha.mymovies.ui.templates.isLoadingState
 import com.br.diegocunha.mymovies.ui.templates.viewmodel.ResourceViewModel
 
 abstract class BaseFragment<T> : Fragment() {
@@ -53,21 +58,31 @@ abstract class BaseFragment<T> : Fragment() {
             ScreenState.ERROR,
             ScreenState.ERROR_RETRY -> {
                 isLoading = viewState.value.isLoading()
-                ErrorState(throwable = null, isLoading = isLoading)
+                ErrorState(throwable = viewState.value.getThrowableOrNull(), isLoading = isLoading)
             }
         }
     }
 
     @Composable
     protected fun LoadingState(state: LoadingType?) {
+        val rememberState = remember {
+            mutableStateOf(state)
+        }
+
         when (state) {
             LoadingType.REPLACE -> ShimmerLoader()
+            LoadingType.PAGINATION -> {
+                rememberState.value = state
+                val isLoadingState = rememberState.value == LoadingType.PAGINATION
+                CircularIndeterminateProgressBar(isDisplayed = isLoadingState, verticalBias = 0.3f)
+            }
             else -> Unit
         }
     }
 
     @Composable
     protected fun ErrorState(throwable: Throwable?, isLoading: Boolean) {
+        Log.e("BaseFragment", null, throwable)
         HelperComponent(isLoading = isLoading, onRetryClick = { viewModel.forceLoad() })
     }
 
