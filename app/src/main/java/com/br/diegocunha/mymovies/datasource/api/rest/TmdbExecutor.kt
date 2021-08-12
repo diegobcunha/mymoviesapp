@@ -13,7 +13,7 @@ class TmdbExecutor(private val api: TmdbApi) {
     }
 
     suspend fun upComingMovies(page: Int): Resource<UpcomingMoviesResponse> {
-        return api.upcomingMovies(BuildConfig.API_KEY, BuildConfig.DEFAULT_LANGUAGE, page, "BR")
+        return api.upcomingMovies(BuildConfig.API_KEY, BuildConfig.DEFAULT_LANGUAGE, page, "US")
             .map {
                 val original = it?.results
                 val copyResults = original.orEmpty().toMutableList()

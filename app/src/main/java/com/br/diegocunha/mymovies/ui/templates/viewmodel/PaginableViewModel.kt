@@ -17,6 +17,7 @@ abstract class PaginableViewModel<O, I : Page<O>>(dispatchersProvider: Dispatche
     }
 
     val items = mutableStateListOf<O>()
+    var itemScrollPosition = 0
 
     final override suspend fun fetch(loadingType: LoadingType): Resource<I> {
         val page = if (loadingType == LoadingType.PAGINATION) {
@@ -39,10 +40,19 @@ abstract class PaginableViewModel<O, I : Page<O>>(dispatchersProvider: Dispatche
         }
     }
 
-    private fun hasMoreData() = currentPage.value < resourceStateFlow.value.data?.totalPages ?: 0
+    private fun hasMoreData() =
+        ((itemScrollPosition + 1) > currentPage.value * PAGE_SIZE) || currentPage.value < resourceStateFlow.value.data?.totalPages ?: 0
 
     private fun appendItems(items: List<O>) {
-        this.items.addAll(items)
+        items.forEach {
+            if (!this.items.contains(it)) {
+                this.items.add(it)
+            }
+        }
+    }
+
+    fun setListScrollPosition(position: Int) {
+        itemScrollPosition = position
     }
 
     companion object {

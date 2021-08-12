@@ -30,8 +30,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.br.diegocunha.mymovies.ui.compose.theme.TmdbTheme
 
 
 private val ShimmerColorShades = listOf(
@@ -63,6 +65,13 @@ fun ShimmerLoader() {
                 ShimmerAnimation()
             }
         }
+    }
+}
+@Preview
+@Composable
+fun PreviewShimmer() {
+    TmdbTheme {
+        ShimmerLoader()
     }
 }
 

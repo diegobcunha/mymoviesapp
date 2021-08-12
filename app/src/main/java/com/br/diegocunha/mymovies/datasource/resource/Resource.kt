@@ -33,6 +33,8 @@ sealed class Resource<T>(open val data: T?) {
 
     fun loadingType() = (this as? Loading)?.type
 
+    fun isPaginationLoadingType() = loadingType() == LoadingType.PAGINATION
+
     inline fun onLoading(block: (LoadingType?) -> Unit): Resource<T> {
         if (this is Loading) {
             block(type)
