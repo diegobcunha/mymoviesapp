@@ -1,10 +1,8 @@
 package com.br.diegocunha.mymovies.ui.templates.fragment
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,7 +31,7 @@ abstract class PaginableFragment<O, R : Page<O>> : BaseFragment<R>() {
         LazyColumn(state = stateList) {
             itemsIndexed(viewModel.items) { index, item ->
                 viewModel.setListScrollPosition(index)
-                if ((index + 1) >= (viewModel.currentPage.value * PAGE_SIZE) && !viewModel.resourceStateFlow.value.isLoading()) {
+                if (shouldFetchNextPage(index)) {
                     viewModel.loadNextPage()
                 }
 
@@ -42,5 +40,10 @@ abstract class PaginableFragment<O, R : Page<O>> : BaseFragment<R>() {
         }
 
         CircularIndeterminateProgressBar(isLoadingPagination, 0.3f)
+    }
+
+    private fun shouldFetchNextPage(index: Int): Boolean {
+        return (index + 1) >= (viewModel.currentPage.value * PAGE_SIZE) &&
+                !viewModel.resourceStateFlow.value.isLoading()
     }
 }
